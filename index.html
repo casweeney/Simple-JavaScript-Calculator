@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Javascript Class</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+
+	<style type="text/css">
+		#cal_window {
+			width: 100%;
+			height: 100px;
+			border: 2px solid #337ab7;
+			margin-right: auto;
+			margin-left: auto;
+		}
+
+		.btn-primary {
+			width: 100%;
+			border-radius: 0;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.panel-primary {
+			border-radius: 0;
+		}
+	</style>
+</head>
+<body onload="disable()">
+	<div class="container">
+		<br />
+		<div class="row">
+			<div class="col-md-3">
+
+			</div>
+
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="text-center">Simple Calculator</h3>
+					</div>
+					<div class="panel-body">
+						<div>
+							<textarea style="resize: none;" readonly="readonly" id="cal_window"></textarea>
+						</div>
+						<br />
+						<table class="table table-bordered" id="calc_btn">
+							<tr>
+								<td><button class="btn btn-primary dsb" onclick="clears()">C</button></td>
+								<td><button class="btn btn-primary dsb">()</button></td>
+								<td><button class="btn btn-primary dsb" onclick="opera('%')">%</button></td>
+								<td><button class="btn btn-primary dsb" onclick="opera('/')">/</button></td>
+							</tr>
+							<tr>
+								<td><button class="btn btn-primary dsb" onclick="btn1('7')">7</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('8')">8</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('9')">9</button></td>
+								<td><button class="btn btn-primary dsb" onclick="opera('*')">*</button></td>
+							</tr>
+							<tr>
+								<td><button class="btn btn-primary dsb" onclick="btn1('4')">4</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('5')">5</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('6')">6</button></td>
+								<td><button class="btn btn-primary dsb" onclick="opera('-')">-</button></td>
+							</tr>
+							<tr>
+								<td><button class="btn btn-primary dsb" onclick="btn1('1')" id="btn1">1</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('2')">2</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('3')">3</button></td>
+								<td><button class="btn btn-primary dsb" onclick="opera('+')">+</button></td>
+							</tr>
+							<tr>
+								<td><button class="btn btn-primary dsb" onclick="del()">DEL</button></td>
+								<td><button class="btn btn-primary dsb" onclick="btn1('0')">0</button></td>
+								<td><button class="btn btn-primary dsb" onclick="period('.')">.</button></td>
+								<td><button class="btn btn-primary dsb" onclick="equals()">=</button></td>
+							</tr>
+						</table>
+						<button  class="btn btn-primary" onclick="power()" id="power">ON</button>
+					</div>
+				</div>
+				<p class="text-center"><b>Tutored by Teslim</b></p>
+			</div>
+
+			<div class="col-md-3">
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+	var op = "";
+	var val1;
+	var val2;
+	var d1;
+	var enable;
+
+	function disable(){
+		var elems = document.getElementsByClassName("dsb");
+		for(var i = 0; i < elems.length; i++){
+			elems[i].disabled = true;
+		}
+	}
+
+	function power(){
+		var power_btn = document.getElementById("power").innerHTML;
+		if(power_btn == "ON"){
+			var elems = document.getElementsByClassName("dsb");
+			for(var i = 0; i < elems.length; i++){
+				elems[i].disabled = false;
+			}
+			document.getElementById("power").innerHTML = "OFF";
+			document.getElementById("power").style.background = "#9d1215";
+		}else if(power_btn == "OFF"){
+			var elems = document.getElementsByClassName("dsb");
+			for(var i = 0; i < elems.length; i++){
+				elems[i].disabled = true;
+			}
+			document.getElementById("power").innerHTML = "ON";
+			document.getElementById("power").style.background = "#337ab7";
+		}
+	}
+
+	function btn1(param){
+		document.getElementById("cal_window").value += param;
+	}
+
+	function period(){
+		var str = document.getElementById("cal_window").value;
+     	var n = str.indexOf(".");
+
+     	if(n < 0){
+     		document.getElementById("cal_window").value = str+".";
+     	}else if(n > 0){
+     		document.getElementById("cal_window").value = str;
+     	}
+		
+	}	
+
+	function opera(ops){
+		op = ops;
+		val1 = document.getElementById("cal_window").value;
+		document.getElementById("cal_window").value = "";
+	}
+
+	function clears(){
+		document.getElementById("cal_window").value = "";
+	}
+
+	function del(){
+		var txt = document.getElementById("cal_window").value;
+		var del = document.getElementById("cal_window").value = txt.length-1;
+
+		document.getElementById("cal_window").value = txt.slice(0,del);
+		
+	}
+
+	function equals(){
+		switch (op)
+		{
+			case "+" : document.getElementById("cal_window").value = parseFloat(val1) + parseFloat(document.getElementById("cal_window").value);
+			break;
+			case "-" : document.getElementById("cal_window").value = parseFloat(val1) - parseFloat(document.getElementById("cal_window").value);
+			break;
+			case "/" : document.getElementById("cal_window").value = parseFloat(val1) / parseFloat(document.getElementById("cal_window").value);
+			break;
+			case "*" : document.getElementById("cal_window").value = parseFloat(val1) * parseFloat(document.getElementById("cal_window").value);
+			break;
+			case "%" : document.getElementById("cal_window").value = parseFloat(val1) % parseFloat(document.getElementById("cal_window").value);
+			break;
+		}
+	}
+
+	/*function btn1(){
+		document.getElementById("cal_window").value += 1;
+	}
+
+	function btn2(){
+		document.getElementById("cal_window").value += 2;
+	}
+
+	function btn3(){
+		document.getElementById("cal_window").value += 3;
+	}
+
+	function btn4(){
+		document.getElementById("cal_window").value += 4;
+	}
+
+	function btn5(){
+		document.getElementById("cal_window").value += 5;
+	}
+
+	function btn6(){
+		document.getElementById("cal_window").value += 6;
+	}
+
+	function btn7(){
+		document.getElementById("cal_window").value += 7;
+	}
+
+	function btn8(){
+		document.getElementById("cal_window").value += 8;
+	}
+
+	function btn9(){
+		document.getElementById("cal_window").value += 9;
+	}*/
+
+	
+</script>
